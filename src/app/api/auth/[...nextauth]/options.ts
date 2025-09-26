@@ -1,9 +1,8 @@
 import GoogleProvider from "next-auth/providers/google";
-import type { NextAuthOptions, Session, User, Account } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import { ensureUser } from "@/server/users/ensureUser";
 
-const AUTH_REDIRECT = "/daily";
 const ERROR_REDIRECT = "/auth/error";
 
 declare module "next-auth" {
@@ -89,12 +88,12 @@ export const options: NextAuthOptions = {
                     customUser.name = result.user.name ?? user.name ?? null;
                     customUser.image = result.user.image ?? user.image ?? null;
                     customUser.email = result.user.email ?? user.email ?? null;
-                    return AUTH_REDIRECT;
+                    return true; // Ensure the callback returns true
                 }
-                return AUTH_REDIRECT;
+                return true; // Default to true if no specific provider logic
             } catch (err) {
                 console.error("signIn ensureUser error:", err);
-                return ERROR_REDIRECT;
+                throw new Error("Authentication failed"); // Trigger ERROR_REDIRECT
             }
         },
         /**
