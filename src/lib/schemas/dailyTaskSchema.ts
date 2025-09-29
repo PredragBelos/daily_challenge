@@ -27,7 +27,7 @@ const dailyTaskBaseFields = z.object({
 export const dailyTaskDbSchema = z.object({
     _id: objectIdString,
     createdAt: z.coerce.date(),
-}).and(dailyTaskBaseFields);
+}).merge(dailyTaskBaseFields);
 
 export type DailyTaskDb = z.infer<typeof dailyTaskDbSchema>;
 
@@ -59,7 +59,7 @@ export const taskAssignmentBaseFields = z.object({
 export const taskAssignmentDbSchema = z.object({
     _id: objectIdString,
     createdAt: z.coerce.date(),
-}).and(taskAssignmentBaseFields);
+}).merge(taskAssignmentBaseFields);
 
 export type TaskAssignmentDb = z.infer<typeof taskAssignmentDbSchema>;
 
